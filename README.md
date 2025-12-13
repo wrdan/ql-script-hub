@@ -74,7 +74,7 @@ ql-script-hub/
 
 | 变量名 | 说明 | 是否必需 | 示例值 | 备注 |
 |--------|------|----------|--------|------|
-| `enshan_cookie` | 恩山论坛Cookie | **必需** | `完整的Cookie字符串` | 单账号Cookie |
+| `ENSHAN_COOKIE` | 恩山论坛Cookie | **必需** | `完整的Cookie字符串` | 单账号Cookie |
 
 #### 📱 NodeSeek 签到配置
 
