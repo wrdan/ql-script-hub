@@ -15,6 +15,7 @@ hadsend = False
 send = None
 try:
     from notify import send
+
     hadsend = True
     print("✅ 已加载notify.py通知模块")
 except ImportError:
@@ -41,6 +42,7 @@ HEADERS = {
     'Cache-Control': 'max-age=0'
 }
 
+
 def mask_username(username):
     """用户名脱敏处理"""
     if not username:
@@ -55,6 +57,7 @@ def mask_username(username):
             return username[0] + '*' * 3 + username[-1]
     return username
 
+
 def format_time_remaining(seconds):
     """格式化时间显示"""
     if seconds <= 0:
@@ -67,6 +70,7 @@ def format_time_remaining(seconds):
         return f"{minutes}分{secs}秒"
     else:
         return f"{secs}秒"
+
 
 def wait_with_countdown(delay_seconds, task_name):
     """带倒计时的随机延迟等待"""
@@ -81,6 +85,7 @@ def wait_with_countdown(delay_seconds, task_name):
         time.sleep(sleep_time)
         remaining -= sleep_time
 
+
 def notify_user(title, content):
     """统一通知函数"""
     if hadsend:
@@ -91,6 +96,7 @@ def notify_user(title, content):
             print(f"❌ 通知发送失败: {e}")
     else:
         print(f"📢 {title}\n📄 {content}")
+
 
 def parse_cookies(cookie_str):
     """解析Cookie字符串，支持多账号"""
@@ -121,16 +127,18 @@ def parse_cookies(cookie_str):
 
     return unique_cookies
 
+
 def extract_number(text):
     """从文本中提取数字"""
     if not text:
         return 0
     try:
         # 移除所有非数字字符，只保留数字
-        number_str = re.sub(r'[^\d]', '', str(text))
+        number_str = re.sub(r'\D', '', str(text))
         return int(number_str) if number_str else 0
     except (ValueError, TypeError):
         return 0
+
 
 class EnShanSigner:
     name = "恩山论坛"
@@ -179,7 +187,7 @@ class EnShanSigner:
                 self.uid = uid_match.group(1)
                 print(f"✅ 获取uid成功: {self.uid}")
             else:
-                    return False, "未找到uid参数"
+                return False, "未找到uid参数"
 
             return True, "登录成功"
 
@@ -376,7 +384,9 @@ class EnShanSigner:
                 coin_gain = coin_after - coin_before
                 point_gain = point_after - point_before
 
-                print(f"📊 积分变化: 恩山币 {coin_before}→{coin_after} (+{coin_gain}), 积分 {point_before}→{point_after} (+{point_gain})")
+                print(
+                    f"📊 积分变化: 恩山币 {coin_before}→{coin_after} (+{coin_gain}),"
+                    f" 积分 {point_before}→{point_after} (+{point_gain})")
 
                 if coin_gain > 0 or point_gain > 0:
                     signin_success = True
@@ -411,6 +421,7 @@ class EnShanSigner:
 
         print(f"{'✅ 任务完成' if signin_success else '❌ 任务失败'}")
         return final_msg, signin_success
+
 
 def main():
     """主程序入口"""
@@ -507,7 +518,7 @@ def main():
 📈 总计: {total_count}个账号
 ✅ 成功: {success_count}个
 ❌ 失败: {total_count - success_count}个
-📊 成功率: {success_count/total_count*100:.1f}%
+📊 成功率: {success_count / total_count * 100:.1f}%
 ⏰ 完成时间: {datetime.now().strftime('%m-%d %H:%M')}"""
 
         # 添加详细结果（最多显示5个账号的详情）
@@ -519,11 +530,9 @@ def main():
 
         notify_user("恩山论坛签到汇总", summary_msg)
 
-    print(f"\n==== 恩山论坛签到完成 - 成功{success_count}/{total_count} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ====")
+    print(
+        f"\n==== 恩山论坛签到完成 - 成功{success_count}/{total_count} - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} ====")
 
-def handler(event, context):
-    """云函数入口"""
-    main()
 
 if __name__ == "__main__":
     main()
