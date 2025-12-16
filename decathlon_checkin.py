@@ -145,7 +145,7 @@ class Decathlon:
         self.user_name = None
         self.point_before = 0  # 签到前余额
         self.point_after = 0  # 签到后余额
-        self.point_change = 0  # 本次变更积分
+        self.point_change = 0  # 本次变更燃值
 
     def get_user_info(self):
         """仅获取签到前的用户信息和初始余额（单次请求即可）"""
@@ -198,7 +198,7 @@ class Decathlon:
             # 关键修改：默认值改为字符串，与接口返回类型一致
             code = result.get('code', "unknown")
             if code == "0":
-                # 直接从签到接口提取积分数据（核心优化）
+                # 直接从签到接口提取燃值数据（核心优化）
                 data = result.get('data', {})
                 self.point_change = data.get('point_change', 0)
                 self.point_after = data.get('point_balance', 0)
@@ -244,7 +244,7 @@ class Decathlon:
         if not user_success:
             print(f"⚠️ 获取用户信息失败，将继续执行签到流程...")
 
-        # 2. 执行签到（直接获取所有积分数据）
+        # 2. 执行签到（直接获取所有燃值数据）
         signin_success, signin_msg = self.perform_checkin()
 
         # 3. 组合结果消息
@@ -307,7 +307,7 @@ def main():
             # 账号间随机等待
             if index > 0:
                 delay = random.uniform(10, 20)
-                print(f"⏱️  等待 {delay:.1f} 秒后处理下一个账号...")
+                print(f"⏱️ 随机等待 {delay:.1f} 秒后处理下一个账号...")
                 time.sleep(delay)
 
             # 执行签到
