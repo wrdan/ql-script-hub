@@ -1,5 +1,6 @@
 """
-统一茄皇
+cron "11 11 * * *" script-path=xxx.py,tag=匹配cron用
+new Env('统一茄皇')
 
 最后更新日期：2025-12-16
 食用方法：抓包url https://api.zhumanito.cn/api/login 请求体json {"wid":"12345678910"}
@@ -8,8 +9,6 @@
 例如账号1：12345678910 账号2： 12345678911
 则变量为
 export TYQH="12345678910@12345678911"
-
-cron: 11 11 * * *
 """
 
 import requests
