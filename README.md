@@ -38,6 +38,7 @@ ql-script-hub/
 ├── smzdm_checkin.py       # 什么值得买签到脚本
 ├── deepflood_checkin.py   # deepflood签到脚本
 ├── leaflow_checkin.py     # leaflow签到脚本
+├── decathlon_checkin.py   # 迪卡侬签到脚本
 └── tieba_checkin.py       # 贴吧签到脚本
 ```
 
@@ -155,6 +156,11 @@ ql-script-hub/
 |--------|------|----------|--------|------|
 | `LEAFLOW_COOKIE` | leaflow网站Cookie | **必需** | `cookie` | 多账号用`&`分隔 |
 
+#### 👔 迪卡侬签到配置
+
+| 变量名 | 说明          | 是否必需 | 示例值     | 备注 |
+|--------|-------------|----------|---------|------|
+| `DECATHLON_TOKEN` | 迪卡侬小程序Token | **必需** | `token` | 多账号用`&`分隔 |
 
 #### ⏰ 随机化配置（所有脚本共用）
 
@@ -251,6 +257,10 @@ ql-script-hub/
 7. 将上述两者按“UID,AccessToken”格式填写为环境变量 NGA_CREDENTIALS
    单账号示例：123456,abcdefg
    多账号用 & 分隔：123456,abcdefg&234567,hijklmn
+
+#### 迪卡侬小程序 Token 
+1. 微信访问 迪卡侬小程序 登录
+2. 抓包任意请求头里的authorization,例如账号1：eyJhbGciOiJIUzI1NiJ9.eyj
 
 ---
 
