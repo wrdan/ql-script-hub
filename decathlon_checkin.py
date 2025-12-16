@@ -32,7 +32,7 @@ except ImportError:
 # 配置项（统一全大写命名，提高可读性）
 DECATHLON_TOKEN = os.environ.get('DECATHLON_TOKEN', '')
 MAX_RANDOM_DELAY = int(os.getenv("MAX_RANDOM_DELAY", "3600"))
-RANDOM_SIGNIN = os.getenv("RANDOM_SIGNIN", "true").lower() == "false"
+RANDOM_SIGNIN = os.getenv("RANDOM_SIGNIN", "true").lower() == "true"
 PRIVACY_MODE = os.getenv("PRIVACY_MODE", "true").lower() == "true"
 
 # 迪卡侬小程序配置
