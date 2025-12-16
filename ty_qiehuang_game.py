@@ -298,7 +298,7 @@ def view_page(wid):
 
 if __name__ == '__main__':
     if 'TYQH' in os.environ:
-        tyqh_session = re.split("@|&", os.environ.get("tyqh"))
+        tyqh_session = re.split("@|&", os.environ.get("TYQH"))
         print(f'查找到{len(tyqh_session)}个账号')
     else:
         tyqh_session = []
