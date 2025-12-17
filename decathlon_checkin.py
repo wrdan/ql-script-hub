@@ -1,15 +1,15 @@
 """
-cron "0 40 0,12 * * *" script-path=xxx.py,tag=匹配cron用
+cron "0 7 0,8,16 * * *" script-path=xxx.py,tag=匹配cron用
 new Env('迪卡侬小程序签到')
 
-最后更新日期：2025-12-16
+最后更新日期：2025-12-17
 食用方法：变量输入export DECATHLON_TOKEN=token1&&token2
 支持多用户运行
 多用户用&&或换行隔开
 例如账号1：eyJhbGciOiJIUzI1NiJ9.eyj 账号2： eyJhbGciOiJIUzI1NiJ9.eyj
 则变量为
 export v="eyJhbGciOiJIUzI1NiJ9.eyj&&yJhbGciOiJIUzI1NiJ9.eyj"
-每天运行两次否则token会过期
+每天运行三次否则token会过期
 """
 
 import os
