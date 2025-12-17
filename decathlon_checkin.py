@@ -139,7 +139,7 @@ class Decathlon:
         self.index = index
         self.session = requests.Session()
         self.session.headers.update(HEADERS)
-        self.session.headers['authorization'] = token
+        self.session.headers['Authorization'] = 'Bearer ' + token
 
         # 用户信息
         self.user_name = None
