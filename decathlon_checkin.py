@@ -146,6 +146,34 @@ class Decathlon:
         self.point_before = 0  # 签到前余额
         self.point_after = 0  # 签到后余额
         self.point_change = 0  # 本次变更燃值
+    def login(self):
+        url = "https://mpm-store.decathlon.com.cn/wcc_bff/api/v1/auth/simplify/login"
+
+        payload = {
+            "code": "0e11pn000yBIwV19cW300BrRqc21pn04"
+        }
+
+        headers = {
+            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090a13) UnifiedPCWindowsWechat(0xf2541510) XWEB/17071",
+            'Content-Type': "application/json",
+            'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJWYTlvdWR0ajU5ZUZzcEtGblo2SVRrWXF5QWs2bHY3dCIsInNvY2lhbF9pZCI6InpzcUFzSFhZd0M1S2dPbHZGUmNqQStoVU4zRlF2OEEzT3YrVVk3T2FJalE9IiwiY2FyZF9udW1iZXIiOiJ3ZDBpaHZmd3RKeFVkbzNBVS9YSEpRPT0iLCJvcmlnaW4iOiJ1c2VyIiwic29jaWFsX21hc3Rlcl9pZCI6IkY3ZGV4WFhoRWVaMjYvUHFHUDd6SkM0SlZSU3RrSXh6OVQ5UGVGKzJZWHc9IiwiaXNzIjoiZmFjYWRlLWFwaS5ka3RhcHAuY2xvdWQiLCJtb2JpbGUiOm51bGwsImV4cCI6MTc2NjA2MzM3MCwiY2xpZW50X25hbWUiOiJNUE1TVE9SRSIsImNsaWVudF9pZCI6IlZhOW91ZHRqNTllRnNwS0ZuWjZJVGtZcXlBazZsdjd0IiwicGVyc29uX2lkIjoiMTUwMzUxMDI5MzkifQ.b9QSLCx-t-P2efOJmmLhnNuetEVLrrWECs5oq6BwpH2EqBOYze_0vxUEMIcwOF-OI4fYiVEXfEvRotZdOkWLYceHa_0bhF_o1RyzEjJg-RzhCmHt4URgAUbK0-PJX2OJyPOPz9chrM1cLFORgDNCEea6nAQJQiFG0BfPrfhOb2lMaev69VIj8t7Gj_BgzcMnmpn7_5qxb51PkQr7TNdHXdhgdWsmm2ZWtX59_op0XW0e8bjXJSHxeDQ3gib_n-HV50Un23DDm87a_eDI5IMdtIJKvHlXUyCiDqLAzTVUoJfh92U0C0PPeE7WRndr_KIuUgw9lAfvYb7BiOdtTsUGvw",
+            'X-dynaTrace': "MT_3_1_675510937_2_bcbcde49-1b05-4d1b-ab4c-ce9c65e0957a_1_1_5",
+            'Etag': "93cae974-9bbb-48a4-9f5c-afb3ffc830b8",
+            'xweb_xhr': "1",
+            'x-api-key': "ace22a30-579d-475f-99fc-138b71bc2ab9",
+            'shop-id': "7",
+            'tid': "",
+            'Sensors-Data-Preset': "{\"page_name\":\"%E9%A6%96%E9%A1%B5\",\"page_type\":\"HomePage\",\"$app_version\":\"6.16.12\"}",
+            'Sec-Fetch-Site': "cross-site",
+            'Sec-Fetch-Mode': "cors",
+            'Sec-Fetch-Dest': "empty",
+            'Referer': "https://servicewechat.com/wxdbc3f1ac061903dd/495/page-frame.html",
+            'Accept-Language': "zh-CN,zh;q=0.9"
+        }
+
+        response = requests.post(url, data=json.dumps(payload), headers=headers)
+
+        print(response.text)
 
     def get_user_info(self):
         """仅获取签到前的用户信息和初始余额（单次请求即可）"""
