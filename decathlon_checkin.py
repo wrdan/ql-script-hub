@@ -139,44 +139,16 @@ class Decathlon:
         self.index = index
         self.session = requests.Session()
         self.session.headers.update(HEADERS)
-        self.session.headers['Authorization'] = 'Bearer ' + token
+        self.session.headers['Authorization'] = token if token.startswith("Bearer") else f"Bearer {token}"
 
         # 用户信息
         self.user_name = None
-        self.point_before = 0  # 签到前余额
-        self.point_after = 0  # 签到后余额
+        self.point_before = 0  # 签到前燃值
+        self.point_after = 0  # 签到后燃值
         self.point_change = 0  # 本次变更燃值
-    def login(self):
-        url = "https://mpm-store.decathlon.com.cn/wcc_bff/api/v1/auth/simplify/login"
-
-        payload = {
-            "code": "0e11pn000yBIwV19cW300BrRqc21pn04"
-        }
-
-        headers = {
-            'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF WindowsWechat(0x63090a13) UnifiedPCWindowsWechat(0xf2541510) XWEB/17071",
-            'Content-Type': "application/json",
-            'Authorization': "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJWYTlvdWR0ajU5ZUZzcEtGblo2SVRrWXF5QWs2bHY3dCIsInNvY2lhbF9pZCI6InpzcUFzSFhZd0M1S2dPbHZGUmNqQStoVU4zRlF2OEEzT3YrVVk3T2FJalE9IiwiY2FyZF9udW1iZXIiOiJ3ZDBpaHZmd3RKeFVkbzNBVS9YSEpRPT0iLCJvcmlnaW4iOiJ1c2VyIiwic29jaWFsX21hc3Rlcl9pZCI6IkY3ZGV4WFhoRWVaMjYvUHFHUDd6SkM0SlZSU3RrSXh6OVQ5UGVGKzJZWHc9IiwiaXNzIjoiZmFjYWRlLWFwaS5ka3RhcHAuY2xvdWQiLCJtb2JpbGUiOm51bGwsImV4cCI6MTc2NjA2MzM3MCwiY2xpZW50X25hbWUiOiJNUE1TVE9SRSIsImNsaWVudF9pZCI6IlZhOW91ZHRqNTllRnNwS0ZuWjZJVGtZcXlBazZsdjd0IiwicGVyc29uX2lkIjoiMTUwMzUxMDI5MzkifQ.b9QSLCx-t-P2efOJmmLhnNuetEVLrrWECs5oq6BwpH2EqBOYze_0vxUEMIcwOF-OI4fYiVEXfEvRotZdOkWLYceHa_0bhF_o1RyzEjJg-RzhCmHt4URgAUbK0-PJX2OJyPOPz9chrM1cLFORgDNCEea6nAQJQiFG0BfPrfhOb2lMaev69VIj8t7Gj_BgzcMnmpn7_5qxb51PkQr7TNdHXdhgdWsmm2ZWtX59_op0XW0e8bjXJSHxeDQ3gib_n-HV50Un23DDm87a_eDI5IMdtIJKvHlXUyCiDqLAzTVUoJfh92U0C0PPeE7WRndr_KIuUgw9lAfvYb7BiOdtTsUGvw",
-            'X-dynaTrace': "MT_3_1_675510937_2_bcbcde49-1b05-4d1b-ab4c-ce9c65e0957a_1_1_5",
-            'Etag': "93cae974-9bbb-48a4-9f5c-afb3ffc830b8",
-            'xweb_xhr': "1",
-            'x-api-key': "ace22a30-579d-475f-99fc-138b71bc2ab9",
-            'shop-id': "7",
-            'tid': "",
-            'Sensors-Data-Preset': "{\"page_name\":\"%E9%A6%96%E9%A1%B5\",\"page_type\":\"HomePage\",\"$app_version\":\"6.16.12\"}",
-            'Sec-Fetch-Site': "cross-site",
-            'Sec-Fetch-Mode': "cors",
-            'Sec-Fetch-Dest': "empty",
-            'Referer': "https://servicewechat.com/wxdbc3f1ac061903dd/495/page-frame.html",
-            'Accept-Language': "zh-CN,zh;q=0.9"
-        }
-
-        response = requests.post(url, data=json.dumps(payload), headers=headers)
-
-        print(response.text)
 
     def get_user_info(self):
-        """仅获取签到前的用户信息和初始余额（单次请求即可）"""
+        """仅获取签到前的用户信息和初始燃值（单次请求即可）"""
         try:
             print("👤 正在获取用户信息...")
             time.sleep(random.uniform(2, 5))
@@ -195,7 +167,7 @@ class Decathlon:
                 print(f"❌ {error_msg}")
                 return False, error_msg
 
-            # 提取初始余额和用户名
+            # 提取初始燃值和用户名
             self.point_before = data.get('dktPointBalance', 0)
             self.user_name = data.get('dktName', '未知用户')
 
@@ -231,24 +203,24 @@ class Decathlon:
                 self.point_change = data.get('point_change', 0)
                 self.point_after = data.get('point_balance', 0)
 
-                # 若初始余额为0（获取用户信息失败），则用最终余额-变更值反推
+                # 若初始燃值为0（获取用户信息失败），则用最终燃值-变更值反推
                 if self.point_before == 0:
                     self.point_before = self.point_after - self.point_change
 
-                success_msg = f"签到成功，获得 {self.point_change} 燃值，当前余额 {self.point_after}"
+                success_msg = f"签到成功，获得 {self.point_change} 燃值，当前燃值 {self.point_after}"
                 print(f"✅ {success_msg}")
                 return True, success_msg
             elif code == "ENP_1006":
-                # 签到失败（已签到），余额不变
+                # 签到失败（已签到），燃值不变
                 self.point_after = self.point_before
                 return False, "今日已签到"
             else:
-                # 其他失败情况，余额不变
+                # 其他失败情况，燃值不变
                 self.point_after = self.point_before
                 return False, f"签到失败：{code} - {result.get('code', '未知错误')}"
 
         except Exception as e:
-            # 异常情况，余额不变
+            # 异常情况，燃值不变
             self.point_after = self.point_before
             return False, f"签到异常: {str(e)}"
 
