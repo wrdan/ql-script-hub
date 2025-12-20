@@ -220,8 +220,8 @@ class MiCommunityMini:
             code = result.get('status', "unknown")
             if code == 200:
                 # 直接从签到接口提取成长值数据（核心优化）
-                data = result.get('status', {})
-                self.point_change = data.get('score', 0)
+                data = result.get('entity', {})
+                self.point_change = int(data.get('score', 0))
                 self.point_after = self.point_before + self.point_change
 
                 success_msg = f"签到成功，获得 {self.point_change} 成长值，当前成长值 {self.point_after}"
